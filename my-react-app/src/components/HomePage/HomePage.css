@@ -1,0 +1,75 @@
+/* src/components/HomePage.css */
+.homepage {
+  font-family: Arial, sans-serif;
+  color: #333;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #ff7e5f, #feb47b);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 3em;
+  margin-bottom: 0.5em;
+}
+
+.hero-content p {
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
+
+.cta-button {
+  background-color: #fff;
+  color: #ff7e5f;
+  padding: 15px 30px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-size: 1em;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.cta-button:hover {
+  background-color: #f0f0f0;
+}
+
+.features-section {
+  padding: 40px 20px;
+  background-color: #f9f9f9;
+  text-align: center;
+}
+
+.features-content h2 {
+  font-size: 2.5em;
+  margin-bottom: 1em;
+}
+
+.feature {
+  margin-bottom: 20px;
+}
+
+.feature h3 {
+  font-size: 1.8em;
+  margin-bottom: 0.5em;
+}
+
+.feature p {
+  font-size: 1.1em;
+  color: #555;
+}
+
+.footer {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 20px;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
