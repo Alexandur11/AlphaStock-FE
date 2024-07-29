@@ -1,17 +1,35 @@
-/* src/components/HomePage.css */
+/* Style for the homepage */
 .homepage {
   font-family: Arial, sans-serif;
   color: #333;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  position: relative;
+  overflow: hidden; /* Ensure content does not overflow */
+  height: 100vh; /* Make sure the container covers the full viewport height */
 }
 
+/* Full-page background video */
+.background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the video covers the entire container */
+  z-index: -1; /* Place video behind other content */
+  opacity: 0.8; /* Optional: add opacity for visual effect */
+}
+
+/* Hero section with overlay */
 .hero-section {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
   color: white;
   padding: 60px 20px;
   text-align: center;
+  background: rgba(0, 0, 0, 0.5); /* Dark overlay for text readability */
+  position: relative; /* Ensure it stays above the video */
+  z-index: 1; /* Ensure it is above the video */
 }
 
 .hero-content h1 {
@@ -41,7 +59,7 @@
 
 .features-section {
   padding: 40px 20px;
-  background-color: #f9f9f9;
+  background-color: rgba(249, 249, 249, 0.8); /* Semi-transparent background */
   text-align: center;
 }
 
@@ -69,7 +87,7 @@
   color: white;
   text-align: center;
   padding: 20px;
-  position: absolute;
+  position: relative;
   bottom: 0;
   width: 100%;
 }

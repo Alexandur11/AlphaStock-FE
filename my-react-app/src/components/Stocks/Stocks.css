@@ -1,0 +1,95 @@
+.stock-grid-container {
+  font-family: Arial, sans-serif;
+  color: #333;
+  box-sizing: border-box;
+  background: url('/src/assets/stock_pic.jpg') no-repeat center center fixed; 
+  background-size: cover;
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 60% 20% 20%;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.navbar {
+  grid-column: 1 / span 3;
+  background-color: #333;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.search-bar {
+  grid-column: 1 / span 5;
+  justify-content: center;
+  padding: 10rem;
+}
+
+.search-bar input {
+  padding: 0.1rem;
+  font-size: 1rem;
+  margin-right: 0.5rem;
+}
+
+.search-bar button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.search-bar button:hover {
+  background-color: #0056b3;
+}
+
+.data-frame {
+  grid-column: 1 / span 3; /* Span all three columns */
+  background-color: transparent;
+}
+
+.newsletters {
+  display: grid;
+  grid-column: 2 / span 2; /* Start from second column and span two columns */
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.newsletter {
+  background-color: #e0e0e0;
+  padding: 1rem;
+  border: 1px solid #ccc;
+}
+
+.intro {
+  height: 100%;
+}
+
+.gradient-custom-2 {
+  /* fallback for old browsers */
+  background: #6a11cb;
+
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+}
+
+table td,
+table th {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+thead th,
+tbody th {
+  color: #fff;
+}
+
+tbody td {
+  font-weight: 500;
+  color: rgba(255, 255, 255, .65);
+}
