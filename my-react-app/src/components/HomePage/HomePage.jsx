@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
 import './HomePage.css';
 import back_vid from '/src/assets/back_vid.mp4'; // Path to your video file
+
 
 const HomePage = () => {
   return (

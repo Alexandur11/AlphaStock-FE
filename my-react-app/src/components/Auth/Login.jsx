@@ -1,8 +1,68 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
-import back_vid from '/src/assets/back_vid.mp4'; // Path to your video file
+import back_vid from '/src/assets/back_vid.mp4';
+import { backend_url } from '../../../utils'; 
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleUsernameChange = (e) => {
+    setUsername(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!username) {
+      setError("Username is required");
+      return;
+    }
+
+    if (!password) {
+      setError("Password is required");
+      return;
+    }
+
+    setError("");
+
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+
+    try {
+      const response = await fetch(`${backend_url}/login`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json(); 
+      console.log(result)
+
+      if (response.ok) {
+        console.log(result.access_token)
+        if (result.access_token) {
+          localStorage.setItem("token", JSON.stringify(result.access_token));
+          localStorage.setItem("role", JSON.stringify(result.role));
+          window.location.href = "/";
+        } else {
+          setError("Login failed: token is undefined");
+          alert("Wrong Username or Password");
+        }
+      } else {
+        setError("Login failed: " + result.message);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('Login failed. Please try again.');
+    }
+  };
+
   return (
     <div className="loginContainer">
       <video autoPlay muted loop className="background-video">
@@ -11,18 +71,30 @@ const Login = () => {
       </video>
       <div className="loginBox">
         <h1>Login</h1>
-        <div className="inputGroup">
-          <label htmlFor="username">Username</label>
-          <input type="text" id="username" placeholder="Username" />
-        </div>
-        <div className="inputGroup">
-          <label htmlFor="password">Password</label>
-          <input type="password" id="password" placeholder="Password" />
-        </div>
-        <button className="loginButton">Login</button>
-        <p className="signupLink">
-          Don't have an account? <a href="/signup">Sign up</a>
-        </p>
+        <form onSubmit={handleSubmit}>
+          <div className="inputGroup">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Username"
+              value={username}
+              onChange={handleUsernameChange}
+            />
+          </div>
+          <div className="inputGroup">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              value={password}
+              onChange={handlePasswordChange}
+            />
+          </div>
+          {error && <p className="error">{error}</p>}
+          <button type="submit" className="loginButton">Login</button>
+        </form>
       </div>
     </div>
   );
