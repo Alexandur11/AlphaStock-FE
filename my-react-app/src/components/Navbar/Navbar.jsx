@@ -20,19 +20,19 @@ const Navbar = () => {
         <a href="/" className="navbar-logo">AlphaStock</a>
         <ul className="navbar-menu">
           <li><Link to="/">Home</Link></li>
-          <li><Link to="/stocks">Stocks</Link></li>
-          <li className="dropdown">
+          {role !== null && <li><Link to="/stocks">Stocks</Link></li>}
+          {role !== null && <li className="dropdown">
             <a href="#" className="dropdown-toggle" onClick={handleDropdownToggle}>Calculators</a>
             {dropdownOpen && (
               <ul className="dropdown-menu">
-                <li><Link to="/calculator1">Fair Value Calculator</Link></li>
-                <li><Link to="/calculator2">Intrinsic Value Calculator</Link></li>
-                <li><Link to="/calculator3">Stock Price Predictor</Link></li>
+                <li><Link to="/PLC">FVC</Link></li>
+                <li><Link to="/IVC">IVC</Link></li>
+                <li><Link to="/SPP">SPP</Link></li>
               </ul>
             )}
-          </li>
-          <li><Link to="#profile">Profile</Link></li>
-          {role !== null && (<li><a href="#" onClick={handleLogout} className="navbar-link">Logout</a></li>)}
+          </li>}
+          {role !== null && <li><Link to="#profile">Profile</Link></li>}
+          {role !== null && (<li><a href="/" onClick={handleLogout} className="navbar-link">Logout</a></li>)}
           {role == null && (<li><a href="/login" className="navbar-link">Login</a></li>)}
         </ul>
         <div className="navbar-toggle">
