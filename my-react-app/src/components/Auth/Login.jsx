@@ -36,7 +36,7 @@ const Login = () => {
     formData.append("password", password);
 
     try {
-      const response = await fetch(`${backend_url}/login`, {
+      const response = await fetch(`${backend_url}/login/token`, {
         method: 'POST',
         body: formData,
       });

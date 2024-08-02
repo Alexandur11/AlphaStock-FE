@@ -1,42 +1,80 @@
-.stock-grid-container {
-  font-family: Arial, sans-serif;
-  color: #333;
-  box-sizing: border-box;
-  background: url('/src/assets/stock_pic.jpg') no-repeat center center fixed; 
-  background-size: cover;
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 60% 20% 20%;
-  gap: 1rem;
-  padding: 1rem;
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden; /* Prevent scrolling */
 }
 
-.navbar {
-  grid-column: 1 / span 3;
-  background-color: #333;
+/* Full-page background video */
+.background-video {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the video covers the entire container */
+  z-index: -1; /* Place the video behind other content */
+}
+
+.stocks-page {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+}
+
+.stocks-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, 0.5);
   color: white;
-  padding: 1rem;
-  text-align: center;
+  overflow: hidden; /* Prevent content overflow */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.3s ease;
+}
+
+/* Hide the container when there is no result */
+.stocks-container.hidden {
+  opacity: 0;
+  pointer-events: none; /* Prevent interaction when hidden */
+}
+
+.stocks-container.visible {
+  opacity: 1;
+  pointer-events: auto; /* Allow interaction when visible */
 }
 
 .search-bar {
-  grid-column: 1 / span 5;
+  height: 60px; /* Adjusted to give more space */
+  margin: 40px 0;
+  display: flex;
   justify-content: center;
-  padding: 10rem;
+  align-items: center;
 }
 
 .search-bar input {
-  padding: 0.1rem;
-  font-size: 1rem;
-  margin-right: 0.5rem;
+  width: 70%; /* Made a bit wider for better usability */
+  padding: 10px; /* Reduced padding for a more compact design */
+  font-size: 16px;
+  border-radius: 5px;
+  border: none;
 }
 
 .search-bar button {
-  padding: 0.5rem 1rem;
-  font-size: 1rem;
+  margin-left: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 5px;
   background-color: #007bff;
   color: white;
-  border: none;
   cursor: pointer;
 }
 
@@ -44,52 +82,43 @@
   background-color: #0056b3;
 }
 
+.error-message {
+  color: red;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 80%; /* Adjust width for better content layout */
+  max-height: 80vh; /* Limit the height to fit within viewport */
+  overflow: auto; /* Allow scrolling if content overflows */
+}
+
 .data-frame {
-  grid-column: 1 / span 3; /* Span all three columns */
-  background-color: transparent;
-}
-
-.newsletters {
-  display: grid;
-  grid-column: 2 / span 2; /* Start from second column and span two columns */
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-
-.newsletter {
-  background-color: #e0e0e0;
-  padding: 1rem;
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 10px 0;
+  padding: 10px;
+  overflow-y: auto;
   border: 1px solid #ccc;
 }
 
-.intro {
-  height: 100%;
+.data-row {
+  margin-bottom: 10px; /* Space between rows */
 }
 
-.gradient-custom-2 {
-  /* fallback for old browsers */
-  background: #6a11cb;
-
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
-
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to top, rgba(106, 17, 203, 1), rgba(37, 117, 252, 1));
+.newsletters {
+  display: flex;
+  flex-direction: column; /* Column layout for vertical stacking */
+  gap: 10px;
 }
 
-table td,
-table th {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
-thead th,
-tbody th {
-  color: #fff;
-}
-
-tbody td {
-  font-weight: 500;
-  color: rgba(255, 255, 255, .65);
+.newsletter {
+  flex: 1;
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 10px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
 }

@@ -33,6 +33,7 @@ const IntrinsicValueCalculator = () => {
       });
 
       const result = await response.json();
+      
 
       if (response.ok) {
         setResult(result); 
