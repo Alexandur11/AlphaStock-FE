@@ -93,7 +93,7 @@ const PeterLynchCalculator = () => {
     const height = 400;
     const left = (window.screen.width / 2) - (width / 2);
     const top = (window.screen.height / 2) - (height / 2);
-    window.open(`https://finance.yahoo.com/quote/${stockSymbol}key-statistics/`, 'popup', `width=${width},height=${height},top=${top},left=${left}`);
+    window.open(`https://finance.yahoo.com/quote/${stockSymbol}/key-statistics/`, 'popup', `width=${width},height=${height},top=${top},left=${left}`);
   };
 
   return (

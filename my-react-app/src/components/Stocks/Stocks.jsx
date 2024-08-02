@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import './Stocks.css';
 import back_vid from '/src/assets/back_vid.mp4';
 import { backend_url } from '../../../utils'; 
@@ -6,48 +7,37 @@ import { backend_url } from '../../../utils';
 const Stocks = () => {
   const [symbol, setSymbol] = useState("");
   const [error, setError] = useState("");
-  const [result, setResult] = useState(null);
+  const [chartImageUrl, setChartImageUrl] = useState(""); // State for image URL
   const token = localStorage.getItem('token')?.replace(/^"|"$/g, '');
 
   const fetchStockData = async () => {
     if (!symbol) {
       setError("Please enter a symbol");
-      setResult(null);
+      setChartImageUrl(""); // Clear image URL
       return;
     }
 
     try {
-      const response = await fetch(`${backend_url}/company/information?symbol=${symbol}`, {
+      // Fetch the chart image
+      const imageResponse = await fetch(`${backend_url}/company/information?symbol=${symbol}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const result = await response.json();
-
-      if (response.ok) {
-        // Transform data into an array of objects
-        const transformedResult = result.map((item) => ({
-          symbol: item[0],
-          year: item[1],
-          revenue: item[2],
-          netIncome: item[3],
-          cashFlow: item[4],
-          debtLevel: item[5],
-          eps: item[6],
-          roe: item[7],
-        }));
-        setResult(transformedResult); 
+      if (imageResponse.ok) {
+        const imageBlob = await imageResponse.blob();
+        const imageUrl = URL.createObjectURL(imageBlob);
+        setChartImageUrl(imageUrl);
         setError("");
       } else {
-        setError("Failed to fetch data");
-        setResult(null);
+        throw new Error("Failed to fetch chart image");
       }
     } catch (error) {
       console.error('Error:', error);
-      setError('Failed to fetch data');
-      setResult(null);
+      setError(error.message || 'Failed to fetch data');
+      setChartImageUrl(""); // Clear image URL
     }
   };
 
@@ -76,28 +66,17 @@ const Stocks = () => {
           <button onClick={handleSearchClick}>Search</button>
         </div>
         {error && <div className="error-message">{error}</div>}
-        {result && result.length > 0 ? (
+        {chartImageUrl && (
           <div className="content">
-            <div className="data-frame">
-              {result.map((item, index) => (
-                <div key={index} className="data-row">
-                  <p><strong>Symbol:</strong> {item.symbol}</p>
-                  <p><strong>Year:</strong> {item.year}</p>
-                  <p><strong>Revenue:</strong> {item.revenue}</p>
-                  <p><strong>Net Income:</strong> {item.netIncome}</p>
-                  <p><strong>Cash Flow:</strong> {item.cashFlow}</p>
-                  <p><strong>Debt Level:</strong> {item.debtLevel}</p>
-                  <p><strong>EPS:</strong> {item.eps}</p>
-                  <p><strong>ROE:</strong> {item.roe}</p>
-                </div>
-              ))}
+            <div className="chart-frame">
+              <img src={chartImageUrl} alt="Stock Chart" />
             </div>
             <div className="newsletters">
               <div className="newsletter">Newsletter 1</div>
               <div className="newsletter">Newsletter 2</div>
             </div>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );
