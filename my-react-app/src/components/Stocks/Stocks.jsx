@@ -3,6 +3,7 @@ import axios from 'axios';
 import './Stocks.css';
 import back_vid from '/src/assets/back_vid.mp4';
 import { backend_url } from '../../../utils'; 
+import AlphaVantageNewsletter from '../Newsletter/AlphaVantageNewsletter';
 
 const Stocks = () => {
   const [symbol, setSymbol] = useState("");
@@ -72,7 +73,7 @@ const Stocks = () => {
               <img src={chartImageUrl} alt="Stock Chart" />
             </div>
             <div className="newsletters">
-              <div className="newsletter">Newsletter 1</div>
+            <AlphaVantageNewsletter symbol={symbol} />
               <div className="newsletter">Newsletter 2</div>
             </div>
           </div>

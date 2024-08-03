@@ -76,7 +76,6 @@ const StockPredictor = () => {
             {error && <div className="error">{error}</div>}
             {result && (
               <div id="result" className="result">
-                {/* Display result here */}
                 <pre>{JSON.stringify(result, null, 2)}</pre>
               </div>
             )}
