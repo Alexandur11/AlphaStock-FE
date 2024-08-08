@@ -1,5 +1,3 @@
-/* PeterLynchCalculator.css */
-
 /* Ensure the body and html cover the full height */
 body,
 html {
@@ -30,6 +28,9 @@ html {
   position: relative; /* Required to ensure child elements are positioned correctly */
   min-height: 100vh;
   overflow: hidden; /* Ensure content doesn't overflow */
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 /* Header styling */
@@ -90,7 +91,7 @@ html {
 }
 
 .form-group input {
-  width: %;
+  width: 90%; /* Fixed missing width percentage */
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ddd;

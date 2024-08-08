@@ -11,8 +11,8 @@ const HomePage = () => {
       </video>
       <div className="hero-section">
         <div className="hero-content">
-          <h1>Welcome to Our Website</h1>
-          <p>Discover amazing content and features.</p>
+          <h2>Our goal is to find outstanding business, buy at the right price</h2>
+          <h2>and hold for the long run!</h2>
           <a href="#features" className="cta-button">Learn More</a>
         </div>
       </div>
@@ -22,3 +22,6 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+// Remember, our goal is to find outstanding business, 
+// buy at the right price and hold for the long run. 

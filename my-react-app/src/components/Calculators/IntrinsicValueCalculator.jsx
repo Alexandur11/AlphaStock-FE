@@ -52,12 +52,6 @@ const IntrinsicValueCalculator = () => {
         <source src={back_vid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
-      <header>
-        <h1>Intrinsic Value Calculator</h1>
-        <p>Determine the intrinsic value of your stock</p>
-      </header>
-
       <main>
         <div className="calculator">
           <h2>Intrinsic Value Calculation</h2>

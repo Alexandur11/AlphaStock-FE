@@ -51,11 +51,6 @@ const StockPredictor = () => {
         <source src={back_vid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
-      <header>
-        <h1>Stock Predictor</h1>
-      </header>
-
       <main>
         <div className="calculator">
           <h2>Stock Predictor</h2>

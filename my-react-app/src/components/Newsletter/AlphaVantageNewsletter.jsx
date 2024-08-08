@@ -65,7 +65,7 @@ const AlphaVantageNewsletter = ({ symbol }) => {
                   />
                 )}
                 <h3>{item.title}</h3>
-                <p>Time: {item.time}</p>
+                <p>Date: {item.time}</p>
               </a>
             </li>
           ))}

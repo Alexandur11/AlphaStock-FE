@@ -102,12 +102,6 @@ const PeterLynchCalculator = () => {
         <source src={back_vid} type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-
-      <header>
-        <h1>Peter Lynch Calculator</h1>
-        <p>Calculate the potential of your investment</p>
-      </header>
-
       <main>
         <div className="calculator">
           <h2>Peter Lynch Fair Value Calcuator</h2>
