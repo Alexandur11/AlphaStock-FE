@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Stocks.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { login_service } from '../../../utils'; 
+import { alpha_stock_service, prepareTokenForRequest } from '../../../utils'; 
 import AlphaVantageNewsletter from '../Newsletter/AlphaVantageNewsletter';
+
 
 const Stocks = () => {
   const [symbol, setSymbol] = useState("");
   const [error, setError] = useState("");
-  const [chartImageUrl, setChartImageUrl] = useState(""); // State for image URL
-  const token = localStorage.getItem('token')?.replace(/^"|"$/g, '');
+  const [chartImageUrl, setChartImageUrl] = useState(""); 
+  
 
   const fetchStockData = async () => {
     if (!symbol) {
@@ -20,12 +21,10 @@ const Stocks = () => {
 
     try {
       // Fetch the chart image
-      const imageResponse = await fetch(`${login_service}/company/information?symbol=${symbol}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const access_token = await prepareTokenForRequest()
+
+      const imageResponse = await fetch(`${alpha_stock_service}/company/information?symbol=${symbol}`, 
+        {method: 'GET',headers: {Authorization: `Bearer ${access_token}`}});
 
       if (imageResponse.ok) {
         const imageBlob = await imageResponse.blob();
@@ -54,7 +53,6 @@ const Stocks = () => {
     <div className="stocks-page">
       <video className="background-video" autoPlay muted loop>
         <source src={back_vid} type="video/mp4" />
-        Your browser does not support HTML5 video.
       </video>
       <div className="stocks-container">
         <div className="search-bar">

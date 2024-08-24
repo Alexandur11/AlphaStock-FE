@@ -1,17 +1,17 @@
 import Cookies from "js-cookie";
 
 export const login_service = 'http://127.0.0.1:8000';
+export const alpha_stock_service = 'http://127.0.0.1:8002';
 
 
 
 export const handleLogout = async () => {
-      localStorage.removeItem('token');
-      localStorage.removeItem('role');
-
+      Cookies.remove('refresh_token');
+      Cookies.remove('access_token');
       navigate('/login');
       console.error('Error:', error);
-      // Optionally handle the error, e.g., show a message
-      navigate('/login'); // Ensure user is redirected to login
+
+      navigate('/login'); 
     }
 
   
@@ -37,7 +37,7 @@ export const handleLogout = async () => {
       const accessToken = Cookies.get('access_token');
 
       const accessTokenVerificationResponse = await fetch(`${login_service}/verify_access_token`, 
-        {method: 'GET',headers: {'Authorization': `Bearer ${accessToken}` }});
+        {method: 'GET',headers: {'Authorization': `Bearer ${accessToken}`}});
     
 
       if (accessTokenVerificationResponse.status === 200) {return accessToken;} 
@@ -45,26 +45,35 @@ export const handleLogout = async () => {
 
       else {
         const refreshToken = Cookies.get('refresh_token');
-        const refreshTokenVerificationResponse = await fetch(`${login_service}/refresh_access_token`, 
-          { method: 'POST', headers: { 'Authorization': `Bearer ${refreshToken}`}});
+        const refreshTokenVerificationResponse = await fetch(`${login_service}/verify_refresh_token`, 
+          { method: 'GET', headers: { 'Authorization': `Bearer ${refreshToken}`}});
 
 
         const refreshTokenData = await refreshTokenVerificationResponse.json();
 
+        if (refreshTokenData.status === 401){
+          Cookies.remove('refresh_token');
+          Cookies.remove('access_token');
+          navigate('/login');
+        }
 
         if (refreshTokenData.Validity !== 'Expires') 
           {setToken(refreshTokenData.token, 'access_token'); return refreshTokenData.token;} 
 
-
         else {
           const newRefreshTokenResponse = await fetch(`${login_service}/refresh_refresh_token`, 
-            { method: 'POST',headers: {'Authorization': `Bearer ${refreshToken}`}});
+            { method: 'GET',headers: {'Authorization': `Bearer ${refreshToken}`}});
+
+            const newAccessTokenResponse = await fetch(`${login_service}/refresh_access_token`, 
+              { method: 'GET',headers: {'Authorization': `Bearer ${refreshToken}`}});
     
           const newRefreshTokenData = await newRefreshTokenResponse.json();
-          setToken(refreshTokenData.token, 'access_token');
+          const newAccessTokenData = await newAccessTokenResponse.json();
+
+          setToken(newAccessTokenData.token, 'access_token');
           setToken(newRefreshTokenData.token, 'refresh_token');
-    
-          return refreshTokenData.token;
+          
+          return newAccessTokenData.token;
         }
       }
     };
@@ -77,3 +86,12 @@ export const handleLogout = async () => {
     Cookies.set(name, token, { secure: true });
 };
 
+export const authorizeAccessLevel = async => {
+  const refreshToken = Cookies.get('refresh_token');
+
+  if (!refreshToken) {
+    return false;
+  }
+
+  return true;
+}

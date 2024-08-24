@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { login_service } from '../../../utils';
+import { alpha_stock_service, prepareTokenForRequest } from '../../../utils';
 import './Newsletter.css'; 
 
 const AlphaVantageNewsletter = ({ symbol }) => {
@@ -13,13 +13,9 @@ const AlphaVantageNewsletter = ({ symbol }) => {
       if (!symbol) return;
 
       try {
-        const response = await axios.get(`${login_service}/news/?symbol=${symbol}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-
-        console.log('Response Data:', response.data); // Debugging
+        const access_token = await prepareTokenForRequest()
+        const response = await axios.get(`${alpha_stock_service}/news/?symbol=${symbol}`, {
+          headers: {Authorization: `Bearer ${access_token}`}});
 
         if (response.status === 200) {
           setResult(response.data);
@@ -36,12 +32,8 @@ const AlphaVantageNewsletter = ({ symbol }) => {
     fetchNewsletterData();
   }, [symbol, token]);
 
-  console.log('Result:', result); // Debugging
-  console.log('Error:', error); // Debugging
-
   if (error) return <div>Error: {error}</div>;
 
-  // Check if result is valid and has expected structure
   if (result && typeof result.Title === 'object') {
     const titles = Object.keys(result.Title).map(key => ({
       title: result.Title[key],

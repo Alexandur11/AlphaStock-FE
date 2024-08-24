@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import './Calculators.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { login_service, evaluateStockValue } from '../../../utils';
+import { alpha_stock_service, evaluateStockValue, prepareTokenForRequest } from '../../../utils';
 
 const PeterLynchCalculator = () => {
   const [stockSymbol, setStockSymbol] = useState("");
-  const [EGR, setEGR] = useState("");
-  const [DY, setDY] = useState("");
-  const [peRatio, setPeRatio] = useState("");
+  const [eargnigsPerShareGrowthRate, setEargnigsPerShareGrowthRate] = useState("");
+  const [dividendYield, setDividendYield] = useState("");
+  const [priceToEarningsRatio, setPriceToEarningsRatio] = useState("");
   const [error, setError] = useState("");
   const [result, setResult] = useState(null);
   const [evaluationResult, setEvaluationResult] = useState("");
@@ -18,44 +18,40 @@ const PeterLynchCalculator = () => {
   };
 
   const handleEGRChange = (e) => {
-    setEGR(e.target.value);
+    setEargnigsPerShareGrowthRate(e.target.value);
   };
 
   const handleDYChange = (e) => {
-    setDY(e.target.value);
+    setDividendYield(e.target.value);
   };
 
   const handlePeRatioChange = (e) => {
-    setPeRatio(e.target.value);
+    setPriceToEarningsRatio(e.target.value);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!EGR) {
+    if (!eargnigsPerShareGrowthRate) {
       setError("EGR is required!");
       return;
     }
-    if (!DY) {
+    if (!dividendYield) {
       setError("Dividend Yield is required!");
       return;
     }
-    if (!peRatio) {
+    if (!priceToEarningsRatio) {
       setError("P/E Ratio is required!");
       return;
     }
 
     setError("");
-    let token = localStorage.getItem('token');
-    token = token.replace(/^"|"$/g, '');
+    
 
     try {
-      const response = await fetch(`${login_service}/stock_calculator/peter_lynch_fair_price?egr=${EGR}&dy=${DY}&pe_ratio=${peRatio}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const access_token = await prepareTokenForRequest()
+      const response = await fetch(`${alpha_stock_service}/stock_calculator/peter_lynch_fair_price`, 
+        {method: 'GET',headers: {Authorization: `Bearer ${access_token}`,},});
 
       const result = await response.json();
       const resultValue = parseFloat(result); 
@@ -123,7 +119,7 @@ const PeterLynchCalculator = () => {
                 type="number"
                 id="EGR"
                 name="EGR"
-                value={EGR}
+                value={eargnigsPerShareGrowthRate}
                 onChange={handleEGRChange}
               />
               {stockSymbol && (
@@ -138,7 +134,7 @@ const PeterLynchCalculator = () => {
                 type="number"
                 id="DY"
                 name="DY"
-                value={DY}
+                value={dividendYield}
                 onChange={handleDYChange}
               />
               {stockSymbol && (
@@ -153,7 +149,7 @@ const PeterLynchCalculator = () => {
                 type="number"
                 id="peRatio"
                 name="peRatio"
-                value={peRatio}
+                value={priceToEarningsRatio}
                 onChange={handlePeRatioChange}
               />
               {stockSymbol && (

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Calculators.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { login_service } from '../../../utils'; 
+import { alpha_stock_service } from '../../../utils'; 
 
 const StockPredictor = () => {
   const [stock, setStock] = useState("");
@@ -21,16 +21,11 @@ const StockPredictor = () => {
     }
 
     setError("");
-    let token = localStorage.getItem('token');
-    token = token?.replace(/^"|"$/g, '');
 
     try {
-      const response = await fetch(`${login_service}/ML_services/future_price?symbol=${stock}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const access_token = await prepareTokenForRequest()
+      const response = await fetch(`${alpha_stock_service}/ML_services/future_price?symbol=${stock}`, 
+        { method: 'GET',headers: {Authorization: `Bearer ${access_token}`}});
 
       const data = await response.json();
 
