@@ -47,8 +47,8 @@ const Login = () => {
       if (response.ok) {
         console.log(result.access_token)
         if (result.access_token) {
-          localStorage.setItem("token", JSON.stringify(result.access_token));
-          localStorage.setItem("role", JSON.stringify(result.role));
+          setToken(result.access_token, 'access_token')
+          setToken(result.refresh_token, 'refresh_token')
           window.location.href = "/";
         } else {
           setError("Login failed: token is undefined");

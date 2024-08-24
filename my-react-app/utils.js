@@ -1,4 +1,7 @@
-export const backend_url = 'http://127.0.0.1:8000';
+import Cookies from "js-cookie";
+
+export const login_service = 'http://127.0.0.1:8000';
+
 
 
 export const handleLogout = async () => {
@@ -29,3 +32,48 @@ export const handleLogout = async () => {
         return "Invalid value";
       }
     };
+
+    export const prepareTokenForRequest = async (e) => {
+      const accessToken = Cookies.get('access_token');
+
+      const accessTokenVerificationResponse = await fetch(`${login_service}/verify_access_token`, 
+        {method: 'GET',headers: {'Authorization': `Bearer ${accessToken}` }});
+    
+
+      if (accessTokenVerificationResponse.status === 200) {return accessToken;} 
+
+
+      else {
+        const refreshToken = Cookies.get('refresh_token');
+        const refreshTokenVerificationResponse = await fetch(`${login_service}/refresh_access_token`, 
+          { method: 'POST', headers: { 'Authorization': `Bearer ${refreshToken}`}});
+
+
+        const refreshTokenData = await refreshTokenVerificationResponse.json();
+
+
+        if (refreshTokenData.Validity !== 'Expires') 
+          {setToken(refreshTokenData.token, 'access_token'); return refreshTokenData.token;} 
+
+
+        else {
+          const newRefreshTokenResponse = await fetch(`${login_service}/refresh_refresh_token`, 
+            { method: 'POST',headers: {'Authorization': `Bearer ${refreshToken}`}});
+    
+          const newRefreshTokenData = await newRefreshTokenResponse.json();
+          setToken(refreshTokenData.token, 'access_token');
+          setToken(newRefreshTokenData.token, 'refresh_token');
+    
+          return refreshTokenData.token;
+        }
+      }
+    };
+    
+
+
+
+
+  export const setToken = async (token, name) => {
+    Cookies.set(name, token, { secure: true });
+};
+
