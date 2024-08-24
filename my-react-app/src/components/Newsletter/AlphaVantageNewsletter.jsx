@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { backend_url } from '../../../utils';
+import { login_service } from '../../../utils';
 import './Newsletter.css'; 
 
 const AlphaVantageNewsletter = ({ symbol }) => {
@@ -13,7 +13,7 @@ const AlphaVantageNewsletter = ({ symbol }) => {
       if (!symbol) return;
 
       try {
-        const response = await axios.get(`${backend_url}/news/?symbol=${symbol}`, {
+        const response = await axios.get(`${login_service}/news/?symbol=${symbol}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

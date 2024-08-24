@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Calculators.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { backend_url } from '../../../utils'; 
+import { login_service } from '../../../utils'; 
 
 const IntrinsicValueCalculator = () => {
   const [stock, setStock] = useState("");
@@ -25,7 +25,7 @@ const IntrinsicValueCalculator = () => {
     token = token.replace(/^"|"$/g, '');
 
     try {
-      const response = await fetch(`${backend_url}/stock_calculator/Intrinsic_value?symbol=${stock}`, {
+      const response = await fetch(`${login_service}/stock_calculator/Intrinsic_value?symbol=${stock}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

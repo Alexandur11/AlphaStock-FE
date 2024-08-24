@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './Stocks.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { backend_url } from '../../../utils'; 
+import { login_service } from '../../../utils'; 
 import AlphaVantageNewsletter from '../Newsletter/AlphaVantageNewsletter';
 
 const Stocks = () => {
@@ -20,7 +20,7 @@ const Stocks = () => {
 
     try {
       // Fetch the chart image
-      const imageResponse = await fetch(`${backend_url}/company/information?symbol=${symbol}`, {
+      const imageResponse = await fetch(`${login_service}/company/information?symbol=${symbol}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,

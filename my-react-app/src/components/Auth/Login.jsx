@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Login.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { backend_url } from '../../../utils'; 
+import { login_service, setToken } from '../../../utils'; 
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -36,7 +36,7 @@ const Login = () => {
     formData.append("password", password);
 
     try {
-      const response = await fetch(`${backend_url}/login`, {
+      const response = await fetch(`${login_service}/login`, {
         method: 'POST',
         body: formData,
       });

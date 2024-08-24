@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './Calculators.css';
 import back_vid from '/src/assets/back_vid.mp4';
-import { backend_url, evaluateStockValue } from '../../../utils';
+import { login_service, evaluateStockValue } from '../../../utils';
 
 const PeterLynchCalculator = () => {
   const [stockSymbol, setStockSymbol] = useState("");
@@ -50,7 +50,7 @@ const PeterLynchCalculator = () => {
     token = token.replace(/^"|"$/g, '');
 
     try {
-      const response = await fetch(`${backend_url}/stock_calculator/peter_lynch_fair_price?egr=${EGR}&dy=${DY}&pe_ratio=${peRatio}`, {
+      const response = await fetch(`${login_service}/stock_calculator/peter_lynch_fair_price?egr=${EGR}&dy=${DY}&pe_ratio=${peRatio}`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
