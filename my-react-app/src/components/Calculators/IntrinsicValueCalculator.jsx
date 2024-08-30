@@ -21,19 +21,16 @@ const IntrinsicValueCalculator = () => {
     }
 
     setError("");
-    let token = localStorage.getItem('token');
-    token = token.replace(/^"|"$/g, '');
-
     try {
-      const response = await fetch(`${alpha_stock_service}/stock_calculator/Intrinsic_value?symbol=${stock}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const access_token = await prepareTokenForRequest()
+      const intrinsicResponse = await fetch(`${alpha_stock_service}/stock_calculator/Intrinsic_value?symbol${stock}`, 
+        {method: 'GET',headers: {Authorization: `Bearer ${access_token}`,},});
 
-      const result = await response.json();
-      
+      const intrinsicResult = await intrinsicResponse.json();
+
+
+
+  
 
       if (response.ok) {
         setResult(result); 

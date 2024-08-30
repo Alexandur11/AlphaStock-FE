@@ -50,11 +50,15 @@ const PeterLynchCalculator = () => {
 
     try {
       const access_token = await prepareTokenForRequest()
-      const response = await fetch(`${alpha_stock_service}/stock_calculator/peter_lynch_fair_price`, 
+      const intrinsicResponse = await fetch(`${alpha_stock_service}/stock_calculator/Intrinsic_value?symbol${stock}`, 
         {method: 'GET',headers: {Authorization: `Bearer ${access_token}`,},});
 
-      const result = await response.json();
-      const resultValue = parseFloat(result); 
+      const intrinsicResult = await intrinsicResponse.json();
+
+      const relativeResponse = await fetch(`${alpha_stock_service}/stock_calculator/peter_lynch_fair_price?symbol${stock}`, 
+        {method: 'GET',headers: {Authorization: `Bearer ${access_token}`,},});
+
+      const relativeResult = await relativeResponse.json();
 
       if (response.ok) {
         const evaluation = await  evaluateStockValue(resultValue); 

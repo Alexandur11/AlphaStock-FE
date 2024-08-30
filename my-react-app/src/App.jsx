@@ -5,10 +5,7 @@ import Navbar from './components/Navbar/Navbar';
 import Calculators from './components/Calculators/Calculators';
 import Stocks from './components/Stocks/Stocks';
 import Login from './components/Auth/Login';
-import PeterLynchCalculator from './components/Calculators/PeterLynchCalculator';
-import IntrinsicValueCalculator from './components/Calculators/IntrinsicValueCalculator';
-import StockPredictor from './components/Calculators/MLStockPrediction';
-
+import StockValuation from './components/Calculators/StockValuation';
 
 
 function App() {
@@ -19,10 +16,8 @@ function App() {
           <Route path="/" element={<HomePage />} />
           <Route path="/calculators" element={<Calculators />} />
           <Route path="/stocks" element={<Stocks />} />
+          <Route path="/stock_valuator" element={<StockValuation />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/PLC" element={<PeterLynchCalculator />} />
-          <Route path="/IVC" element={<IntrinsicValueCalculator />} />
-          <Route path="/SPP" element={<StockPredictor />} />
         </Routes>
       </Router>
   );

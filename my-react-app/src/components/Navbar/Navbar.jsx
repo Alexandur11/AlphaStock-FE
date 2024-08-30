@@ -20,7 +20,8 @@ const Navbar = () => {
         <ul className="navbar-menu">
           <li><Link to="/">Home</Link></li>
           {refreshToken !== undefined && <li><Link to="/stocks">Stocks</Link></li>}
-          {refreshToken !== undefined && <li className="dropdown">
+          {refreshToken !== undefined && <li><Link to="/stock_valuator">Stock Valuator</Link></li>}
+          {/* {refreshToken !== undefined && <li className="dropdown">
             <a href="#" className="dropdown-toggle" onClick={handleDropdownToggle}>Calculators</a>
             {dropdownOpen && (
               <ul className="dropdown-menu">
@@ -29,7 +30,7 @@ const Navbar = () => {
                 <li><Link to="/SPP">SPP</Link></li>
               </ul>
             )}
-          </li>}
+          </li>} */}
           {refreshToken !== undefined && (<li><a href="/" onClick={handleLogout} className="navbar-link">Logout</a></li>)}
           {refreshToken == undefined && (<li><a href="/login" className="navbar-link">Login</a></li>)}
         </ul>
