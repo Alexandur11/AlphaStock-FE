@@ -17,21 +17,6 @@ export const handleLogout = async () => {
   
 
 
-  export const evaluateStockValue = async (value) => {
-      if (value < 0.5) {
-        return `Fair Value = ${value}. Stock is VERY Over-Valued`;
-      } else if (value >= 0.5 && value < 1) {
-        return `Fair Value = ${value}. Stock is Over-Valued`;
-      } else if (value >= 1 && value < 2) {
-        return `Fair Value = ${value}. Stock is Fairly-Valued`;
-      } else if (value >= 2 && value < 3) {
-        return `Fair Value = ${value}. Stock is Under-Valued`;
-      } else if (value >= 3) {
-        return `Fair Value = ${value}. Stock is VERY Under-Valued`;
-      } else {
-        return "Invalid value";
-      }
-    };
 
     export const prepareTokenForRequest = async (e) => {
       const accessToken = Cookies.get('access_token');
@@ -95,3 +80,24 @@ export const authorizeAccessLevel = async => {
 
   return true;
 }
+
+export const fetchDataAndTransform = async (url, transformFn) => {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Error fetching data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    return transformFn ? transformFn(data) : data; // Apply transformation if provided
+  } catch (error) {
+    console.error(`Fetch error: ${error.message}`);
+    return { error: error.message }; // Return error message for display
+  }
+};
+
+export const transformToChartData = (data) => {
+  return Object.keys(data).map(date => ({
+    date: date,         // Keep the date as is; you may format it if needed
+    value: data[date]   // Get the corresponding value for the date
+  }));
+};

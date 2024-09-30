@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import './Stocks.css';
+import './App.css';
 import back_vid from '/src/assets/back_vid.mp4';
 import MultiChartDashboard from './MultiChartDashboard';
 
 const Stocks = () => {
+  debugger
   const [symbol, setSymbol] = useState("");
   const [error, setError] = useState("");
+  const [searchInitiated, setSearchInitiated] = useState(false); // New state to track search click
 
   // Handle changes in the input field
   const handleSymbolChange = (e) => {
+    debugger
     setSymbol(e.target.value);
+    setSearchInitiated(false); // Reset search initiation when symbol changes
   };
 
   // Trigger search
@@ -19,6 +23,7 @@ const Stocks = () => {
       return;
     }
     setError(""); // Clear previous errors
+    setSearchInitiated(true); // Set search as initiated after button click
   };
 
   return (
@@ -33,14 +38,14 @@ const Stocks = () => {
             placeholder="Search stocks..."
             value={symbol}
             onChange={handleSymbolChange}
-            aria-label="Stock Symbol Input" // Accessibility improvement
+            aria-label="Stock Symbol Input"
           />
           <button onClick={handleSearchClick} aria-label="Search Stocks">Search</button>
         </div>
         {error && <div className="error-message">{error}</div>}
         
-        {/* Render MultiChartDashboard if a symbol is entered */}
-        {symbol && <MultiChartDashboard symbol={symbol} />}
+        {/* Render MultiChartDashboard if a search has been initiated */}
+        {searchInitiated && <MultiChartDashboard symbol={symbol} />}
       </div>
     </div>
   );

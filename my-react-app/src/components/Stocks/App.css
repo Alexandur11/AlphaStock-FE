@@ -1,3 +1,10 @@
+/* General Styles */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-y: auto; /* Allow vertical scrolling */
+}
+
 #root {
   max-width: 1280px;
   margin: 0 auto;
@@ -11,25 +18,27 @@
   will-change: filter;
   transition: filter 300ms;
 }
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #646cffaa);
 }
+
 .logo.react:hover {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
 @keyframes logo-spin {
   from {
-    transform: rotate(0deg);
+      transform: rotate(0deg);
   }
   to {
-    transform: rotate(360deg);
+      transform: rotate(360deg);
   }
 }
 
 @media (prefers-reduced-motion: no-preference) {
   a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
+      animation: logo-spin infinite 20s linear;
   }
 }
 
@@ -39,4 +48,79 @@
 
 .read-the-docs {
   color: #888;
+}
+
+/* Stocks Page Styles */
+.stocks-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-height: calc(100vh - 50px); /* Adjust to your header height if necessary */
+  overflow-y: auto; /* Allow scrolling within the container */
+}
+
+.chart {
+  background: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  height: 400px; /* Fixed height for uniformity */
+  overflow: hidden; /* Hide overflow */
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  border: 1px solid #ccc; 
+}
+
+/* Search Bar Styles */
+.search-bar {
+  height: 80px; /* Increase the height for a better look */
+  margin: 40px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%; /* Full width */
+}
+
+.search-bar input {
+  width: 60%; /* Adjusted to a bit narrower for better balance */
+  padding: 15px; /* Increased padding for better usability */
+  font-size: 18px; /* Slightly larger font size */
+  border-radius: 5px;
+  border: 2px solid rgba(0, 123, 255, 0.8); /* Solid border for clarity */
+  background-color: rgba(255, 255, 255, 0.9); /* Less transparent for better visibility */
+  color: black;
+  transition: border-color 0.3s ease; /* Smooth border color change */
+}
+
+.search-bar input:focus {
+  outline: none; /* Remove default outline */
+  border-color: rgba(0, 86, 179, 0.8); /* Change border color on focus */
+}
+
+.search-bar button {
+  margin-left: 10px;
+  padding: 15px 25px; /* Increased padding for a larger button */
+  font-size: 18px; /* Match font size to the input */
+  border: none;
+  border-radius: 5px;
+  background-color: rgba(0, 123, 255, 0.9); /* More solid background */
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Smooth background color change */
+}
+
+.search-bar button:hover {
+  background-color: rgba(0, 86, 179, 0.9); /* Darker on hover */
+}
+
+/* Additional Content Styles */
+.content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Two charts per row */
+  gap: 20px; /* Space between charts */
+  width: 80%; /* Keep the same width */
+  max-height: 80vh; /* Limit height to fit within viewport */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+  margin: 20px auto; /* Center the content */
 }

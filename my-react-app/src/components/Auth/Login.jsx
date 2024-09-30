@@ -36,6 +36,7 @@ const Login = () => {
     formData.append("password", password);
 
     try {
+      debugger
       const response = await fetch(`${login_service}/login`, {
         method: 'POST',
         body: formData,
