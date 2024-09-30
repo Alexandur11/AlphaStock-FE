@@ -20,7 +20,6 @@ const Navbar = () => {
         <ul className="navbar-menu">
           <li><Link to="/">Home</Link></li>
           {refreshToken !== undefined && <li><Link to="/stocks">Stocks</Link></li>}
-          {refreshToken !== undefined && <li><Link to="/stock_valuator">Stock Valuator</Link></li>}
           {/* {refreshToken !== undefined && <li className="dropdown">
             <a href="#" className="dropdown-toggle" onClick={handleDropdownToggle}>Calculators</a>
             {dropdownOpen && (
