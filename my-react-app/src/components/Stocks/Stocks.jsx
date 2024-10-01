@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import './App.css';
 import back_vid from '/src/assets/back_vid.mp4';
 import MultiChartDashboard from './MultiChartDashboard';
+import '/src/index.css';
 
 const Stocks = () => {
-  debugger
   const [symbol, setSymbol] = useState("");
   const [error, setError] = useState("");
   const [searchInitiated, setSearchInitiated] = useState(false); // New state to track search click
 
   // Handle changes in the input field
   const handleSymbolChange = (e) => {
-    debugger
     setSymbol(e.target.value);
     setSearchInitiated(false); // Reset search initiation when symbol changes
   };

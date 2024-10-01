@@ -1,8 +1,41 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 import FinancialChart from './FinancialChart';
 import { fetchDataAndTransform } from '../../../utils/';
 import { transformToChartData } from '../../../utils/';
 import { alpha_stock_service } from '../../../utils';
+
+const DashboardContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between charts */
+  width: 100%; /* Full width */
+  max-height: calc(100vh - 100px); /* Adjust to fit within viewport */
+  overflow-y: auto; /* Allow scrolling if necessary */
+  padding: 20px; /* Padding around the dashboard */
+`;
+
+const ChartWrapper = styled.div`
+  background: #fff; /* White background for charts */
+  border-radius: 5px; 
+  padding: 10px; 
+  height: 400px; /* Fixed height for charts */
+  border: 1px solid #ccc; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+`;
+
+const ErrorMessage = styled.div`
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #ff0000; /* Error color */
+`;
 
 const MultiChartDashboard = ({ symbol }) => {
   const [dataSets, setDataSets] = useState([]);
@@ -49,9 +82,9 @@ const MultiChartDashboard = ({ symbol }) => {
   }, [symbol]);
 
   return (
-    <div className="stocks-container">
+    <DashboardContainer>
       {dataSets.map((data, index) => (
-        <div key={index} className="chart">
+        <ChartWrapper key={index}>
           {data ? (
             <FinancialChart
               data={data}
@@ -60,16 +93,14 @@ const MultiChartDashboard = ({ symbol }) => {
               label={`Chart ${index + 1}`}
             />
           ) : (
-            <div style={{ width: '100%', height: '400px', border: '1px solid #ccc', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div>
-                <p>No data available</p>
-                <p>{fetchResponses[index]}</p>
-              </div>
-            </div>
+            <ErrorMessage>
+              <p>No data available</p>
+              <p>{fetchResponses[index]}</p>
+            </ErrorMessage>
           )}
-        </div>
+        </ChartWrapper>
       ))}
-    </div>
+    </DashboardContainer>
   );
 };
 

@@ -1,8 +1,8 @@
 import React, { useState } from 'react'; 
-import './Navbar.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { handleLogout } from '../../../utils'; // Import the utility function
 import Cookies from "js-cookie";
+import '/src/index.css';
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
