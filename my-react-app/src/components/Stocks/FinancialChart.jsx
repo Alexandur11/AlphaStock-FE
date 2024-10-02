@@ -1,69 +1,68 @@
-import React from 'react';
-import { scaleTime, scaleLinear } from '@visx/scale';
-import { LinePath } from '@visx/shape';
-import { AxisBottom, AxisLeft } from '@visx/axis';
+import React, { useEffect, useRef } from 'react';
+import { Chart, registerables } from 'chart.js';
 import styled from 'styled-components';
 
 // Styled components for FinancialChart
-const ChartContainer = styled.svg`
+const ChartContainer = styled.canvas`
   width: 100%;
   height: 100%;
 `;
 
-const ChartError = styled.p`
-  color: red; /* Error color for the message */
-`;
-
-const ChartLabel = styled.text`
-  x: ${(props) => props.x};
-  y: -10;
-  text-anchor: middle;
-  fill: red; /* Change the color as needed */
+const ChartTitle = styled.h3`
+  text-align: center;
+  color: black; /* You can customize the color or other styles here */
 `;
 
 const FinancialChart = ({ data, xField, yField, label }) => {
-  // Validate data
-  if (!Array.isArray(data) || data.length === 0) {
-    return <ChartError>No data available to render the chart.</ChartError>;
-  }
+  const chartRef = useRef(null);
 
-  // Set dimensions and margins for the chart
-  const margin = { top: 20, right: 30, bottom: 50, left: 50 };
-  const width = 800 - margin.left - margin.right;
-  const height = 400 - margin.top - margin.bottom;
+  useEffect(() => {
+    Chart.register(...registerables); // Register Chart.js components
 
-  // Set scales for the x and y axes
-  const xScale = scaleTime({
-    domain: [
-      new Date(Math.min(...data.map(d => new Date(d[xField])))),
-      new Date(Math.max(...data.map(d => new Date(d[xField])))),
-    ],
-    range: [0, width],
-  });
+    const ctx = chartRef.current.getContext('2d');
+    const xValues = data.map(d => d[xField]);
+    const yValues = data.map(d => d[yField]);
 
-  const yScale = scaleLinear({
-    domain: [
-      0,
-      Math.max(...data.map(d => d[yField] || 0)), // Ensure no NaN if yField is missing
-    ],
-    range: [height, 0],
-  });
+    // Create the chart
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: xValues,
+        datasets: [
+          {
+            fill: false,
+            lineTension: 0,
+            backgroundColor: 'rgba(0,0,255,1.0)',
+            borderColor: 'rgba(0,0,255,0.1)',
+            data: yValues,
+          },
+        ],
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false, // Hide the legend to avoid duplicate labels
+          },
+        },
+        scales: {
+          y: { min: Math.min(...yValues) - 1, max: Math.max(...yValues) + 1 },
+        },
+      },
+    });
+
+    // Cleanup chart instance on component unmount
+    return () => {
+      myChart.destroy();
+    };
+  }, [data, xField, yField, label]); // Add label to dependencies
 
   return (
-    <ChartContainer width={width + margin.left + margin.right} height={height + margin.top + margin.bottom}>
-      <g transform={`translate(${margin.left},${margin.top})`}>
-        <LinePath
-          data={data}
-          x={d => xScale(new Date(d[xField]))}
-          y={d => yScale(d[yField])}
-          stroke="red" // Change the line color to red
-          strokeWidth={2}
-        />
-        <AxisLeft scale={yScale} stroke="red" tickStroke="red" tickLabelProps={{ fill: 'red' }} />
-        <AxisBottom scale={xScale} top={height} stroke="red" tickStroke="red" tickLabelProps={{ fill: 'red' }} />
-        <ChartLabel x={width / 2} fill="red">{label}</ChartLabel>
-      </g>
-    </ChartContainer>
+    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+      {label && <ChartTitle>{label}</ChartTitle>} {/* Display the label as a title */}
+      <ChartContainer ref={chartRef} />
+      {/* Add tooltip or other UI elements as needed */}
+    </div>
   );
 };
 

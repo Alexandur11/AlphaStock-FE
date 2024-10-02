@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@visx/tooltip": "^3.3.0",
     "@visx/visx": "^3.11.0",
     "axios": "^1.7.7",
+    "chart.js": "^4.4.4",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "styled-components": "^6.1.13"
